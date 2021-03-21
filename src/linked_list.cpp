@@ -105,15 +105,16 @@ Element LinkedList::Remove(int index) {
 void LinkedList::Clear() {
   // Tip 1: люди в черном (MIB) пришли стереть вам память
   // напишите свой код здесь ...
-  if ( size_!=0 ) {
-      Node *current_node = head_;
-      Node *next_node = head_->next;
-      delete current_node;
-      for (int i = 1; i <= size_; i++) {
-          current_node = next_node;
-          next_node = current_node->next;
-          delete current_node;
-  }
+  if (size_ == 0) {
+      delete head_;
+  } else {
+      Node* current_node_;
+      Node* next_node = head_->next;
+      for (int i =1 ; i < size_; i++) {
+          current_node_ = next_node;
+          next_node = current_node_->next;
+          delete current_node_;
+      }
   }
   head_ = nullptr;
   tail_ = nullptr;
@@ -132,9 +133,11 @@ Element LinkedList::Get(int index) const {
  */
 int LinkedList::IndexOf(Element e) const {
   // напишите свой код здесь ...
-  Node* current_node = head_;
+  if (size_ == 0)
+      return kNotFoundElementIndex;
+  Node* current_node;
   Node* next_node = head_->next;
-  if (current_node->data == e)
+  if (head_->data == e)
       return 0;
   for (int i = 1; i < size_; i++) {
       current_node = next_node;
@@ -142,7 +145,7 @@ int LinkedList::IndexOf(Element e) const {
       if (current_node->data == e)
           return i;
   }
-  return -1;
+  return kNotFoundElementIndex;
 }
 
 /*
