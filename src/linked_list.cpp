@@ -13,7 +13,7 @@ void LinkedList::Add(Element e) {
     // Tip 3: не забудьте обновить поля head и tail
     // напишите свой код здесь ...
         Node *new_node = new Node(e, nullptr);
-        if (size_ == 0 ) {
+        if (head_== nullptr) {
             assert(tail_ == nullptr && size_ == 0);
             head_ = new_node;
         } else {
@@ -71,7 +71,7 @@ void LinkedList::Set(int index, Element e) {
 }
 
 /*
- * ================================== ok
+ * ==================================
  */
 
 Element LinkedList::Remove(int index) {
@@ -99,24 +99,28 @@ Element LinkedList::Remove(int index) {
     return element;
 }
 /*
- * ====================================== ok
+ * ======================================
  */
 
 void LinkedList::Clear() {
   // Tip 1: люди в черном (MIB) пришли стереть вам память
   // напишите свой код здесь ...
-  for (int i = 0; i < size_; i++) {
-      Node* node_to_delete =  find_node(i);
-      delete node_to_delete;
+  if ( size_!=0 ) {
+      Node *current_node = head_;
+      Node *next_node = head_->next;
+      delete current_node;
+      for (int i = 1; i <= size_; i++) {
+          current_node = next_node;
+          next_node = current_node->next;
+          delete current_node;
+  }
   }
   head_ = nullptr;
   tail_ = nullptr;
   size_ = 0;
 }
 
-/*
- * ================================================== ok
- */
+
 
 Element LinkedList::Get(int index) const {
   internal::check_out_of_range(index, 0, size_);
@@ -124,21 +128,26 @@ Element LinkedList::Get(int index) const {
   return find_node(index)->data;
 }
 /*
- * =========================================== ok
+ * ===========================================
  */
 int LinkedList::IndexOf(Element e) const {
   // напишите свой код здесь ...
   Node* current_node = head_;
   Node* next_node = head_->next;
-  for (int i = 0; i <= size_; i++) {
-          if (current_node->data == e) {
-              return i;
-          }
-          current_node = next_node;
-          next_node = current_node->next;
+  if (current_node->data == e)
+      return 0;
+  for (int i = 1; i < size_; i++) {
+      current_node = next_node;
+      next_node = current_node->next;
+      if (current_node->data == e)
+          return i;
   }
-  return {};
+  return -1;
 }
+
+/*
+ * =============================================== ok
+ */
 
 Node *LinkedList::find_node(int index) const {
   assert(index >= 0 && index < size_);
@@ -147,8 +156,12 @@ Node *LinkedList::find_node(int index) const {
   if (index == 0) {
       return head_;
   }
+  if (index >= size_)
+      return nullptr;
+
   if (index == size_-1) {
       return  tail_;
+
   }
   Node * next_node = head_->next;
   Node * current_node = head_;
