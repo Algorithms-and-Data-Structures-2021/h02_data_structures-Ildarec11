@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   std :: cout << " " << index;
 
 
-
   delete array_list;
+  delete linked_list;
   return 0;
 }

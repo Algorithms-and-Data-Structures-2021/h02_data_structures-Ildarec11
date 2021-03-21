@@ -21,6 +21,7 @@ void LinkedList::Add(Element e) {
         }
         tail_ = new_node;
         size_++;
+
 }
 
 /*
@@ -105,7 +106,7 @@ Element LinkedList::Remove(int index) {
 void LinkedList::Clear() {
   // Tip 1: люди в черном (MIB) пришли стереть вам память
   // напишите свой код здесь ...
-  if (size_ == 0) {
+  if (size_ == 0|| size_ == 1) {
       delete head_;
   } else {
       Node* current_node_;
@@ -172,7 +173,7 @@ Node *LinkedList::find_node(int index) const {
           current_node = next_node;
           next_node = current_node->next;
   }
-  return current_node;
+        return current_node;
 
   /*
    * =========================================== ok
